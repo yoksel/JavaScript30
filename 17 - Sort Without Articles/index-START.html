@@ -18,7 +18,7 @@
 
     #bands {
       list-style: inside square;
-      font-size: 20px;
+      font-size: 15px;
       background: white;
       width: 500px;
       margin: auto;
@@ -27,7 +27,7 @@
     }
     #bands li {
       border-bottom: 1px solid #efefef;
-      padding: 20px;
+      padding: 15px;
     }
     #bands li:last-child {
       border-bottom: 0;
@@ -43,8 +43,31 @@
   <ul id="bands"></ul>
 
 <script>
+const doc = document;
+const bandsList = doc.querySelector('#bands');
+
 const bands = ['The Plot in You', 'The Devil Wears Prada', 'Pierce the Veil', 'Norma Jean', 'The Bled', 'Say Anything', 'The Midway State', 'We Came as Romans', 'Counterparts', 'Oh, Sleeper', 'A Skylit Drive', 'Anywhere But Here', 'An Old Dog'];
 
+const articles = ['A', 'An', 'The'].join('|');
+const regexp = new RegExp(`^(${articles})\\s{1,}`,'i');
+
+function strip(item) {
+  const matches = item.match(regexp);
+  if (matches) {
+    return item.replace(matches[0],'');
+  }
+  return item;
+}
+
+//---------------------------------------------
+
+bands.sort((a,b) => {
+  return strip(a) > strip(b) ? 1 : -1;
+});
+
+bandsList.innerHTML = bands.map(item => {
+  return `<li>${item}</li>`;
+}).join('');
 
 </script>
 

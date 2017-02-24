@@ -43,7 +43,7 @@
     p {
       margin:0;
       padding:20px;
-      transition:background 0.2s;
+      transition: background 0.2s;
       flex:1;
       font-family:'helvetica neue';
       font-size: 20px;
@@ -104,6 +104,47 @@
   </div>
 
 <script>
+
+const doc = document;
+const items = doc.querySelectorAll('.item input');
+const first = null;
+const last = null;
+let checkedCount = 0;
+
+items.slice = [].slice;
+items.filter = [].filter;
+items.reduce = [].reduce;
+
+
+function selectItems(e) {
+
+  if(this.checked) {
+    checkedCount++;
+  }
+  else if(checkedCount > 0) {
+    checkedCount--;
+  }
+
+  if( !e.shiftKey || checkedCount < 2 ) {
+    return;
+  }
+
+  const checkedPos = items.reduce( (pointers, item, i) => {
+    if (item.checked) {
+      pointers.push(i);
+    }
+    return pointers;
+  },[] );
+
+  checkedPos.sort();
+
+  const checkedItems = items.slice(checkedPos[0], checkedPos[checkedPos.length - 1]);
+
+  checkedItems.forEach(item => item.checked = true);
+}
+
+items.forEach( item => item.addEventListener('click', selectItems));
+
 </script>
 </body>
 </html>

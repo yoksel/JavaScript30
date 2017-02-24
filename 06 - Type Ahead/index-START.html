@@ -14,9 +14,58 @@
       <li>or a state</li>
     </ul>
   </form>
-<script>
-const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
 
-</script>
+  <script>
+    const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+
+    const cities = [];
+    const input = document.querySelector('.search');
+    const list = document.querySelector('.suggestions');
+    const listDefaultContent = list.innerHTML;
+
+    fetch( endpoint )
+        .then( blob => blob.json() )
+        .then( data => {
+                        cities.push(...data);
+                      });
+
+    function findMatches( search ) {
+      const regexp = new RegExp( search, 'gi');
+
+      const matches = cities.filter(item => {
+                        return item.city.match( regexp ) || item.state.match( regexp );
+                      });
+
+      return matches;
+    }
+
+    function fillList() {
+
+      const matches = findMatches( this.value );
+
+      if ( matches.length > 0 && matches.length < cities.length ) {
+        const items = matches.map(item => {
+          const regexp = new RegExp( this.value, 'gi');
+          const cityState = item.city + ', ' + item.state;
+          const place = cityState.replace(regexp, '<span class="hl">$&</span>');
+          const population = item.population.replace(/\d{3}$/g,' $&');
+
+          return `
+            <li>
+              <span class="name">${place}</span>
+              <span class="population">${population}</span>
+            </li>
+          `
+        });
+        list.innerHTML = items.join('\n');
+      }
+      else {
+        list.innerHTML = listDefaultContent;
+      }
+    }
+
+    input.addEventListener('input', fillList);
+
+  </script>
   </body>
 </html>

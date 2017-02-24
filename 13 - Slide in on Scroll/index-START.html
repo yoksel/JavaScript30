@@ -42,23 +42,59 @@
 
   </div>
 
-  <script>
-    function debounce(func, wait = 20, immediate = true) {
-      var timeout;
-      return function() {
-        var context = this, args = arguments;
-        var later = function() {
-          timeout = null;
-          if (!immediate) func.apply(context, args);
-        };
-        var callNow = immediate && !timeout;
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-        if (callNow) func.apply(context, args);
+<script>
+  function debounce(func, wait = 20, immediate = true) {
+    var timeout;
+    return function() {
+      var context = this, args = arguments;
+      var later = function() {
+        timeout = null;
+        if (!immediate) func.apply(context, args);
       };
-    }
+      var callNow = immediate && !timeout;
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+      if (callNow) func.apply(context, args);
+    };
+  }
 
-  </script>
+
+const images = document.querySelectorAll('.slide-in');
+
+// console.log(images);
+// console.log(window);
+
+// images.forEach(item => console.dir(item));
+
+
+function toggleImages() {
+  console.count('New scroll');
+  console.log(this.scrollY + this.innerHeight);
+  const that = this;
+  const screenTop = this.scrollY;
+  const screenBottom = screenTop + this.innerHeight;
+
+  images.forEach(img => {
+    const imgCenter = img.offsetTop + img.clientHeight/2;
+    const imgBottom = img.offsetTop + img.clientHeight;
+    console.log({screenTop});
+    console.log({imgCenter});
+    console.log({screenBottom});
+
+    if (imgCenter > screenTop && imgCenter < screenBottom) {
+      console.log('Image visible');
+      img.classList.add('active');
+    }
+    else if ( img.classList.contains('active') ) {
+      img.classList.remove('active');
+    }
+    console.log('-----------');
+  });
+}
+
+window.addEventListener('scroll', debounce(toggleImages));
+
+</script>
 
   <style>
     html {

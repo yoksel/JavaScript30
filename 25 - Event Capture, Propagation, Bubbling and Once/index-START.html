@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>Understanding JavaScript's Capture</title>
 </head>
-<body class="bod">
+<body class="body">
 
   <div class="one">
     <div class="two">
@@ -39,6 +39,21 @@
 
 <button></button>
 <script>
+
+const divs = document.querySelectorAll('div');
+
+function logText(e) {
+  // e.stopPropagation();
+  console.count(this.classList.value);
+}
+
+// document.body.addEventListener('click', logText);
+divs.forEach(div => div.addEventListener('click',
+  logText,
+  {
+    capture: false,
+    once: true
+  }));
 
 </script>
 </body>

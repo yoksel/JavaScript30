@@ -5,13 +5,13 @@
   <title>Sticky Nav</title>
   <link rel="stylesheet" href="style-START.css">
 </head>
-<body>
+<body class="page">
 
-  <header>
+  <header class="header">
     <h1>A story about getting lost.</h1>
   </header>
 
-  <nav id="main">
+  <nav class="nav" id="main">
     <ul>
       <li class="logo"><a href="#">LOST.</a></li>
       <li><a href="#">Home</a></li>
@@ -54,6 +54,26 @@
   </div>
 
 <script>
+
+const doc = document;
+const header = doc.querySelector('.header');
+const nav = doc.querySelector('.nav');
+const navTop = nav.offsetTop;
+const navHeight = nav.offsetHeight;
+const classFixed = 'page--fixed-nav';
+
+function toggleNav() {
+  if (window.scrollY > navTop) {
+    doc.body.style.paddingTop = `${navHeight}px`;
+    doc.body.classList.add(classFixed);
+  }
+  else {
+    doc.body.classList.remove(classFixed);
+    doc.body.style.paddingTop = 0;
+  }
+}
+
+window.addEventListener('scroll', toggleNav);
 
 </script>
 

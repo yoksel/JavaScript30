@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>👀👀👀Follow Along Nav</title>
+  <title>👀👀👀 Follow Along Nav</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -26,8 +26,30 @@
     </div>
 
   <script>
-    // 👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀
+    const links = document.querySelectorAll('a');
+    const span = document.createElement('span');
+    span.classList.add('highlight');
+    document.body.appendChild(span);
+
+    function highlight(e) {
+      const linkRect = this.getBoundingClientRect();
+
+      span.style.width = `${linkRect.width}px`;
+      span.style.height = `${linkRect.height}px`;
+      span.style.transform = `translate(${linkRect.left + window.scrollX}px,${linkRect.top + window.scrollY}px)`;
+
+    }
+
+    links.forEach(link => link.addEventListener('mouseenter', highlight));
+
   </script>
+
+  <style media="screen">
+    .highlight {
+      position: absolute;
+      /*border-radius: 5px;*/
+      /*background: gold;*/
+    }
+  </style>
 </body>
 </html>
-

@@ -4,8 +4,7 @@
   <meta charset="UTF-8">
   <title>Flex Panels 💪</title>
   <link href='https://fonts.googleapis.com/css?family=Amatic+SC' rel='stylesheet' type='text/css'>
-</head>
-<body>
+
   <style>
     html {
       box-sizing: border-box;
@@ -24,9 +23,14 @@
     .panels {
       min-height:100vh;
       overflow: hidden;
+      display: flex;
     }
 
     .panel {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+
       background:#6B0F9C;
       box-shadow:inset 0 0 0 5px rgba(255,255,255,0.1);
       color:white;
@@ -41,6 +45,7 @@
       font-size: 20px;
       background-size:cover;
       background-position:center;
+      cursor: pointer;
     }
 
 
@@ -54,6 +59,10 @@
       margin:0;
       width: 100%;
       transition:transform 0.5s;
+      flex-grow: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .panel p {
@@ -62,11 +71,23 @@
       text-shadow:0 0 4px rgba(0, 0, 0, 0.72), 0 0 14px rgba(0, 0, 0, 0.45);
       font-size: 2em;
     }
+    .panel p:nth-child(1) {
+      transform: translateY(-100%);
+    }
     .panel p:nth-child(2) {
       font-size: 4em;
     }
+    .panel p:nth-child(3) {
+      transform: translateY(100%);
+    }
 
     .panel.open {
+      flex-grow: 5;
+    }
+    .panel.open-active p {
+      transform: translateY(0);
+    }
+    .panel.open p:nth-child(2) {
       font-size:40px;
     }
 
@@ -76,37 +97,70 @@
     }
 
   </style>
+</head>
+<body>
+
 
 
   <div class="panels">
     <div class="panel panel1">
       <p>Hey</p>
-      <p>Let's</p>
+      <p class="middle">Let's</p>
       <p>Dance</p>
     </div>
     <div class="panel panel2">
       <p>Give</p>
-      <p>Take</p>
+      <p class="middle">Take</p>
       <p>Receive</p>
     </div>
     <div class="panel panel3">
       <p>Experience</p>
-      <p>It</p>
+      <p class="middle">It</p>
       <p>Today</p>
     </div>
     <div class="panel panel4">
       <p>Give</p>
-      <p>All</p>
+      <p class="middle">All</p>
       <p>You can</p>
     </div>
     <div class="panel panel5">
       <p>Life</p>
-      <p>In</p>
+      <p class="middle">In</p>
       <p>Motion</p>
     </div>
   </div>
 
   <script>
+
+  const panels = document.querySelectorAll('.panel');
+  let opened = null;
+
+  function toggleActive( ev ) {
+    // console.log(this.classList);
+    if( !this.classList.contains('open') ) {
+      return;
+    }
+
+    if ( ev.propertyName != 'flex'
+         && ev.propertyName != 'flex-grow') {
+      return;
+    }
+    this.classList.add('open-active')
+  }
+
+  function toggleOpen() {
+    if ( opened ) {
+      opened.classList.remove('open');
+      opened.classList.remove('open-active');
+    }
+    this.classList.toggle('open');
+
+    opened = this;
+  }
+
+  panels.forEach( panel => panel.addEventListener('click', toggleOpen));
+  panels.forEach( panel => panel.addEventListener('transitionend', toggleActive));
+
 
   </script>
 

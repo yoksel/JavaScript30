@@ -16,6 +16,15 @@
 
     // You might think we can just do something like this:
 
+    const newPlayers = players.slice();
+    const newPlayers2 = [].concat(players);
+    const newPlayers3 = [...players];
+    const newPlayers4 = Array.from(players);
+
+    newPlayers4[0] = 'Max';
+    console.log(players, newPlayers4);
+    // console.log(newPlayers);
+
     // however what happens when we update that array?
 
     // now here is the problem!
@@ -35,6 +44,26 @@
     // now when we update it, the original one isn't changed
 
     // The same thing goes for objects, let's say we have a person object
+
+    const person = {
+      name: 'Mary',
+      age: 28,
+      socials: {
+        twitter: '@hi',
+        facebook: 'hello.me'
+      }
+    };
+
+
+    // const pers2 = person;
+    // const pers2 = Object.assign({},person,{name: 'Jan'});
+
+    const pers2 = JSON.parse(JSON.stringify(person));
+
+    // pers2.name = 'Jan';
+
+    console.log( person, pers2 );
+
 
     // with Objects
 

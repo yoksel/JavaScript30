@@ -8,13 +8,49 @@
 <body>
 
   <div class="wrapper">
-    <video class="flex" width="765" height="430" src="https://www.dropbox.com/s/nf6jfkwck1glsyo/12%20-%20flex-wrapping-and-columns.mp4?dl=1" loop controls></video>
+    <video class="flex" width="785" height="440" src="https://www.dropbox.com/s/nf6jfkwck1glsyo/12%20-%20flex-wrapping-and-columns.mp4?dl=1" loop controls></video>
     <div class="speed">
       <div class="speed-bar">1×</div>
     </div>
   </div>
 
 <script>
+const doc = document;
+const speed = doc.querySelector('.speed');
+const speedbar = speed.querySelector('.speed-bar');
+const video = doc.querySelector('video');
+const rateMax = 4;
+const rateMin = .5;
+let isDragging = false;
+
+function dragging(e) {
+  const perc = (e.pageY - speed.offsetTop) * 100 / speed.offsetHeight;
+  let rate = perc * (rateMax - rateMin) / 100 + rateMin;
+  rate = Math.round(rate * 100)/100;
+
+  speedbar.style.height = `${perc}%`;
+  video.playbackRate = rate;
+  speedbar.textContent = `${rate}x`;
+}
+
+function startDrag(e) {
+  isDragging = true;
+  speed.addEventListener('mousemove', dragging);
+}
+function stopDrag() {
+  if (!isDragging) {
+    return;
+  }
+  isDragging = false;
+  speed.removeEventListener('mousemove', dragging);
+}
+
+// speed.addEventListener('mousedown', startDrag);
+// speed.addEventListener('mouseup', stopDrag);
+speed.addEventListener('mousemove', dragging);
+speed.addEventListener('mouseleave', stopDrag);
+
+
 </script>
 </body>
 </html>

@@ -19,27 +19,92 @@
 
     // Regular
 
+    console.log('hello');
+
     // Interpolated
+    const emj = '👯‍♂️';
+
+    console.log('hello, I am %s string', '🕺🏼');
+    console.log(`Hello ${emj}`);
+    // console.log( dogs );
+    // console.log( {dogs} );
+    // console.table( dogs );
+
 
     // Styled
+    const styles = ['color: red;','color: gold;','color: green;'];
+    const strs = ['text','text','text'];
+
+    // console.log(`%c ${strs[0]} %c ${strs[1]} %c ${strs[2]}`,...styles);
+
+    var stylesR = [
+'background: red',
+'background: orange',
+'background: gold',
+'background: yellowgreen',
+'background: skyblue',
+'background: steelblue',
+'background: darkviolet'
+];
+console.log ( '%c R %c A %c I %c N %c B %c O %c W ',
+    ...stylesR);
 
     // warning!
 
+    // console.warn('Ouch!');
+
     // Error :|
+
+    // console.error('Something happend');
 
     // Info
 
+    // console.info('Read this');
+
     // Testing
+
+    console.trace('hello');
+    console.assert( 1 === 0, 'Error here');
 
     // clearing
 
+    // console.clear();
+
     // Viewing DOM Elements
+
+    console.log('%o',document.querySelector('p'));
+    console.log('%O',document.querySelector('p'));
 
     // Grouping together
 
+    dogs.forEach(dog => {
+      console.group(`${dog.name}`);
+      console.log(`This is ${dog.name}`);
+      console.log(`${dog.name} is ${dog.age} years ( ${dog.age * 8} dogs years)`);
+      console.groupEnd();
+    });
+
     // counting
 
+    // console.count('hello');
+    // console.count('hello');
+    // console.count('Bye');
+    // console.count('Bye');
+    // console.count('Bye');
+    // console.count('hello');
+    // console.count('hello');
+
     // timing
+
+    console.time('fetching data');
+    fetch('https://api.github.com/users/yoksel/repos')
+      .then(data => data.json())
+      .then(data => {
+        console.timeEnd('fetching data');
+        console.table(data[12]);
+        console.log(data[12]['stargazers_count']);
+      });
+
 
   </script>
 </body>

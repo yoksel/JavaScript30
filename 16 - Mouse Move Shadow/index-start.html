@@ -7,30 +7,97 @@
 <body>
 
   <div class="hero">
-    <h1 contenteditable>🔥WOAH!</h1>
+    <h1 contenteditable>Fuzzy text</h1>
   </div>
 
   <style>
-  html {
-    color:black;
-    font-family: sans-serif;
-  }
-
-  .hero {
+.hero {
     min-height: 100vh;
-    display:flex;
+    display: flex;
     justify-content: center;
     align-items: center;
-    color:black;
-  }
+    font-family: sans-serif;
+    color: rgba(0,0,0,.25);
+}
 
-  h1 {
-    text-shadow: 10px 10px 0 rgba(0,0,0,1);
-    font-size: 100px;
-  }
+h1 {
+    text-shadow: 10px 10px 0 hsla(0, 100%, 50%, .5);
+    font-size: 150px;
+    transition: all .1s;
+}
   </style>
 
 <script>
+const title = document.querySelector('h1');
+const center = {
+  x: title.offsetLeft + title.clientWidth/2,
+  y: title.offsetTop + title.clientHeight/2
+};
+let hue = 130;
+const shadowsMax = 7;
+
+const demoEvent = {
+    offsetX: 200,
+    offsetY: 200,
+    target: window
+}
+
+function moveShadow(e) {
+  const shadows = [];
+
+  let xOffset = e.offsetX;
+  let yOffset = e.offsetY;
+
+  if (this !== e.target) {
+    xOffset += e.target.offsetLeft;
+    yOffset += e.target.offsetTop;
+  }
+
+  const xStep = (center.x - xOffset) / 20;
+  const yStep = (center.y - yOffset) / 20;
+
+  const left = Math.round(xStep);
+  const top = Math.round(yStep);
+  const textColor = getColor();
+
+  for (var i = 0; i < shadowsMax; i++) {
+    let color = getColor();
+    shadows.push(`${left + i*left}px ${top + i*top}px ${i * 5}px ${color}`);
+  }
+
+  title.style.textShadow = shadows.join();
+  title.style.color = textColor;
+}
+
+function getColor() {
+  hue += 20;
+  if (hue == 360) {
+    hue = 0;
+  }
+  return `hsla(${hue},100%,50%,.5)`;
+}
+
+window.addEventListener('mousemove', debounce(moveShadow));
+
+moveShadow(demoEvent);
+
+//---------------------------------------------
+
+function debounce(func, wait = 10, immediate = true) {
+  var timeout;
+  return function() {
+    var context = this, args = arguments;
+    var later = function() {
+      timeout = null;
+      if (!immediate) func.apply(context, args);
+    };
+    var callNow = immediate && !timeout;
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+    if (callNow) func.apply(context, args);
+  };
+}
+
 </script>
 </body>
 </html>

@@ -208,6 +208,53 @@
 </style>
 
 <script>
+
+const doc = document;
+const nav = doc.querySelector('.cool');
+const navItems = doc.querySelectorAll('.cool>li');
+const dropBg = doc.querySelector('.dropdownBackground');
+
+function mouseEnter(e) {
+  const that = this;
+  this.classList.add('trigger-enter');
+
+  setTimeout(() => {
+    if ( this.classList.contains('trigger-enter')) {
+      this.classList.add('trigger-enter-active');
+    }
+  },100)
+
+  // const parent = this.parentNode;
+  const dropdown = this.querySelector('.dropdown');
+  const dropdownRect = dropdown.getBoundingClientRect();
+  const navRect = nav.getBoundingClientRect();
+
+  dropBg.style.width = `${dropdownRect.width}px`;
+  dropBg.style.height = `${dropdownRect.height}px`;
+  dropBg.style.left = `${dropdownRect.left - navRect.left}px`;
+  dropBg.style.top = `${dropdownRect.top - navRect.top}px`;
+  dropBg.classList.add('open');
+  //
+  // console.log(rect);
+
+}
+
+function mouseLeave() {
+  console.log('leave');
+  const that = this;
+
+  this.classList.remove('trigger-enter','trigger-enter-active');
+  dropBg.classList.remove('open');
+
+
+}
+
+// nav.addEventListener('mouseenter', addClass);
+// nav.addEventListener('mouseout', mouseLeave);
+
+navItems.forEach(item => item.addEventListener('mouseenter',mouseEnter) );
+navItems.forEach(item => item.addEventListener('mouseleave',mouseLeave) );
+
 </script>
 
 </body>
